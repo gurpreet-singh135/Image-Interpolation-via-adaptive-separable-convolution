@@ -13,13 +13,15 @@ def _int64_feature(value):
 def _bytes_feature(value):
     return tf.train.Feature(bytes_list=tf.train.BytesList(value=[value]))
 
-def write_to_tfrecord(tfrecord_filepath,images_path):
+def write_to_tfrecord(tfrecord_filepath,images_path,starting_example,examples_per_tfrecord=2500):
 
     images_path = sorted(images_path)
     writer = tf.io.TFRecordWriter(tfrecord_filepath)
-    for i in range(len(images_path)-2):
-        img_paths = images_path[i:i+3]
-        
+    for i in range(0,3*(examples_per_tfrecord),3):
+        img_paths = images_path[starting_example*3+i:starting_example*3+i+3]
+        # for path in img_paths:
+        #     print(path)
+        # print("\n")
         img_raw1 = open(img_paths[0],'rb').read()
         img_raw2 = open(img_paths[1],'rb').read()
         img_raw3 = open(img_paths[2],'rb').read()
@@ -37,10 +39,10 @@ def write_to_tfrecord(tfrecord_filepath,images_path):
         writer.write(example.SerializeToString())
 
     writer.close()
-def decode_image(image_data):
+def decode_image(image_data,height,width):
     image = tf.image.decode_jpeg(image_data, channels=3)
     image = tf.cast(image, tf.float32) / 255.0  # convert image to floats in [0, 1] range
-    image = tf.reshape(image, [1080,1920, 3]) # explicit size needed for TPU
+    image = tf.reshape(image, [height,width, -1]) # explicit size needed for TPU
     return image
 def read_labeled_tfrecord(example):
     LABELED_TFREC_FORMAT = {
@@ -52,10 +54,11 @@ def read_labeled_tfrecord(example):
         # shape [] means single element
     }
     example = tf.io.parse_single_example(example, LABELED_TFREC_FORMAT)
+    height = tf.cast(example['height'], tf.int32)
+    width = tf.cast(example['width'], tf.int32)
     img1 = decode_image(example['img1'])
     img2 = decode_image(example['img2'])
     img3 = decode_image(example['img3'])
-    height = tf.cast(example['height'], tf.int32)
-    width = tf.cast(example['width'], tf.int32)
+
     return img1,img2,img3,height,width
 
