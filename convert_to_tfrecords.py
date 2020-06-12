@@ -56,9 +56,9 @@ def read_labeled_tfrecord(example):
     example = tf.io.parse_single_example(example, LABELED_TFREC_FORMAT)
     height = tf.cast(example['height'], tf.int32)
     width = tf.cast(example['width'], tf.int32)
-    img1 = decode_image(example['img1'])
-    img2 = decode_image(example['img2'])
-    img3 = decode_image(example['img3'])
+    img1 = decode_image(example['img1'],height,width)
+    img2 = decode_image(example['img2'],height,width)
+    img3 = decode_image(example['img3'],height,width)
 
     return img1,img2,img3,height,width
 

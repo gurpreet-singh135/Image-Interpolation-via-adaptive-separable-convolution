@@ -5,7 +5,7 @@ import cv2 as cv
 import glob
 import random
 from PIL import Image
-
+import tensorflow as tf
 
 #Function to generate an image array when centre pixels are provided
 def create_image(frame,i,j):
@@ -81,7 +81,7 @@ def create_random_crops_based_on_Prob(frame1,frame2,random_number=20,flow_thresh
         flow = avg_flow(temp_image1,temp_image2)
         if random.random() < flow / flow_threshold:
             list_of_points.append((i,j))
-            # print(flow)
+            print(flow)
     return list_of_points
 
 #(i1,j1) has pixel values for max flow and (i2,j2) for least
@@ -136,6 +136,12 @@ def frame_capture_from_videos(list_of_files):
                 success,image = vidcap.read()
                 print('Read a new frame: ', success)
                 count += 1
+def prepare_dataset(img1,img2,img3,height,width):
+    fraction = 0.8533333
+    img1 = tf.image.central_crop(img1, central_fraction = fraction)
+    img3 = tf.image.central_crop(img3, central_fraction = fraction)
+    img2 = tf.image.central_crop(img2, central_fraction = fraction)
+    return tf.concat([img1,img3],axis = -1),img2
 ###To Test Simple Flow###
 
 # if __name__=="__main__":
