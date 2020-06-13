@@ -116,11 +116,12 @@ def save_model(model):
     model.save_weights("model.h5")
     print("Saved model to disk")
 
-def load_model(filepath_to_model):
-    json_file = open('model.json', 'r')
+def load_model(filepath_to_model_json,filepath_to_model_h5):
+    json_file = open(filepath_to_model_json, 'r')
     loaded_model_json = json_file.read()
     json_file.close()
     loaded_model = model_from_json(loaded_model_json)
     # load weights into new model
-    loaded_model.load_weights("model.h5")
+    loaded_model.load_weights(filepath_to_model_h5)
     print("Loaded model from disk")
+    return loaded_model

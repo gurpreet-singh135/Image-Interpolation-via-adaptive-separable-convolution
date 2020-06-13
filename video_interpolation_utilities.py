@@ -6,42 +6,42 @@ from tensorflow.keras.models import model_from_json
 import cv2
 from matplotlib import pyplot as plt
 
-def capture_frames_from_video(list_of_videofiles):
-    for path in list_of_videofiles:
-        vidcap = cv2.VideoCapture(path)
-        success,image = vidcap.read()
-        count = 0
-        file_name  = os.path.basename(os.path.splitext(path)[0])
-        if not os.path.isdir("./frames_"+ file_name):
-            os.mkdir("./frames_"+ file_name)
-            while success:
+def capture_frames_from_video(videofile):
+    
+      vidcap = cv2.VideoCapture(videofile)
+      success,image = vidcap.read()
+      count = 0
+      file_name  = os.path.basename(os.path.splitext(videofile)[0])
+      if not os.path.isdir("./frames_"+ file_name):
+          os.mkdir("./frames_"+ file_name)
+          while success:
 
-                cv2.imwrite("./frames_%s/%s.jpg" % (file_name,str(count).zfill(6)), image)     # save frame as JPEG file      
-                success,image = vidcap.read()
-                print('Read a new frame: ', success)
-                count += 2
+              cv2.imwrite("./frames_%s/%s.jpg" % (file_name,str(count).zfill(6)), image)     # save frame as JPEG file      
+              success,image = vidcap.read()
+              print('Read a new frame: ', success)
+              count += 2
 
 
 def pad_frame(image,pad):
     return np.pad(image, ((pad,pad),(0,0),(0,0)), 'constant')
 
 
-def interpolate_frame_fullHD(img,loaded_model):
+def interpolate_frame_fullHD(img,loaded_model,batch):
     # img = np.concatenate((pad_frame(image1,36),pad_frame(image3,36)),axis = -1)
 #     img = np.expand_dims(img, axis=0)/255.
-    interpolated_image = np.zeros((6,1152,1920,3))
+    interpolated_image = np.zeros((batch,1152,1920,3))
     img = img/255.
     # img = np.stack([img for i in range(6)],axis = 0)/255.
     # interpolated_image = np.stack([interpolated_image for i in range(6)],axis = 0)
     for row in range(9):
         for col in range(15):
-            interpolated_image[:,row*128:row*128+128,col*128:col*128+128,:] = loaded_model.predict(img[:,row*128:row*128+128,col*128:col*128+128,:],batch_size = 16,use_multiprocessing = True)
+            interpolated_image[:,row*128:row*128+128,col*128:col*128+128,:] = loaded_model.predict(img[:,row*128:row*128+128,col*128:col*128+128,:],batch_size = batch,use_multiprocessing = True)
     
     return interpolated_image
 
 
 
-def create_interpolated_frames(video_frames_filepath,loaded_model):
+def create_interpolated_frames(video_frames_filepath,loaded_model,batch,video_filename):
   batch_of_images = []
   batch_size = 0
   interpolated_filenumber = 1
@@ -53,7 +53,7 @@ def create_interpolated_frames(video_frames_filepath,loaded_model):
     image2 = cv2.imread(image2_path)
     img = np.concatenate([pad_frame(image1,36),pad_frame(image2,36)],axis = -1)
     img = np.expand_dims(img,axis = 0)
-    if batch_size < 5:
+    if batch_size < batch-1:
       if type(batch_of_images) == list:
         batch_of_images = img 
         batch_size += 1
@@ -62,15 +62,20 @@ def create_interpolated_frames(video_frames_filepath,loaded_model):
         batch_size += 1
       continue
     else :
-      batch_of_images = np.concatenate([batch_of_images,img],axis = 0)
-      batch_size += 1
-      interpolated_images = interpolate_frame_fullHD(batch_of_images,loaded_model)
-      for j in range(6):
-        image_name = './frames_test3/'+str(interpolated_filenumber).zfill(6)+'.jpg'
+      if type(batch_of_images) == list:
+        batch_of_images = img 
+        batch_size += 1
+      else:
+        batch_of_images = np.concatenate([batch_of_images,img],axis = 0)
+        batch_size += 1
+      interpolated_images = interpolate_frame_fullHD(batch_of_images,loaded_model,batch)
+      for j in range(batch):
+        image_name = './frames_'+ video_filename+'/'+str(interpolated_filenumber).zfill(6)+'.jpg'
         cv2.imwrite(image_name,interpolated_images[j,:,:,:]*255.)
         interpolated_filenumber += 2
       batch_size = 0
       batch_of_images = []
+      print("interpolated %d frames" %(batch))
 
 
 
