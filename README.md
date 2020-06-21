@@ -8,4 +8,4 @@
 ###### Interpolated 60 FPS
 ![alt text](https://github.com/gurpreet-singh135/Image-Interpolation-via-separable-convolution/blob/master/test_interpolated.webm)
 
-here's the ![drive link](https://drive.google.com/drive/folders/1vGHMMOX7lHZ41lbZxCsgvdm6ZJAvLC_t?usp=sharing) to see our interpolated results and dataset
+here's the [drive link](https://drive.google.com/drive/folders/1vGHMMOX7lHZ41lbZxCsgvdm6ZJAvLC_t?usp=sharing) to see our interpolated results and dataset
