@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
 import os
 import numpy as np
 import cv2 as cv
@@ -11,29 +5,13 @@ import time
 import random
 from cv2.optflow import calcOpticalFlowSF
 from PIL import Image
-# import IPython.display as display
-# from prepare_dataset import *
 import glob
 from create_dataset_utils import *
-AUTO = tf.data.experimental.AUTOTUNE
-
-
-# In[2]:
-
 
 # Specify the video path folder and path to store tfrecords
 video_path = "F:/DL Frame Interpolation/paaji/video/*.mp4"
 filenames=glob.glob(video_path)
 dataset_path="F:/DL Frame Interpolation/paaji/dataset/"
-
-
-# In[3]:
-
-
-
-
-
-# In[5]:
 
 
 for filename in filenames:
@@ -54,58 +32,4 @@ for filename in filenames:
             total_patches = create_random_crops_based_on_Prob(frames=frames,writer=writer,total_patches=total_patches)
     writer.close()
     os.rename(tfrecords_filename,tfrecords_filename[:-10]+"_"+str(total_patches)+".tfrecords")
-
-
-# In[ ]:
-
-
-
-
-
-# In[6]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[7]:
-
-
-
-
-
-# In[8]:
-
-
-
-
-
-# In[10]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
+print("Success")

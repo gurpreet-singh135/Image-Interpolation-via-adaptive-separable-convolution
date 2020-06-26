@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
 import numpy as np
 from PIL import Image
 from matplotlib import image
@@ -14,10 +8,6 @@ import tensorflow as tf
 import cv2 as cv
 import glob
 import random
-
-
-# In[2]:
-
 
 def _int64_feature(value):
     return tf.train.Feature(int64_list=tf.train.Int64List(value=[value]))
@@ -60,6 +50,7 @@ def read_labeled_tfrecord(example):
     img3 = decode_image(example['img3'],height,width)
 
     return img1,img2,img3,height,width
+
 #Function to generate an image array when centre pixels are provided
 def create_image(frame,i,j):
     new_image=frame[i-75:i+75,j-75:j+75,0:3]
@@ -124,24 +115,6 @@ def create_image_crops_pixels(frame1,frame2):
     return index_high,index_low
 
 
-
-
-# def save_image(frames,pixel_values,type="train",example_number=0):
-#     image=create_image(frames[0],pixel_values[0],pixel_values[1])
-#     cv.imwrite("./"+type+"_dataset/"+type+"_"+str(example_number)+"_0.jpg",image)
-#     image=create_image(frames[1],pixel_values[0],pixel_values[1])
-#     cv.imwrite("./"+type+"_dataset/"+type+"_"+str(example_number)+"_1.jpg",image)
-#     image=create_image(frames[2],pixel_values[0],pixel_values[1])
-#     cv.imwrite("./"+type+"_dataset/"+type+"_"+str(example_number)+"_2.jpg",image)
-#     return
-# def save_image2(frames,pixel_values,example_number=0):
-#     image=create_image(frames[0],pixel_values[0],pixel_values[1])
-#     cv.imwrite("../dataset/"+str(example_number).zfill(6)+"_0.jpg",image)
-#     image=create_image(frames[1],pixel_values[0],pixel_values[1])
-#     cv.imwrite("../dataset/"+str(example_number).zfill(6)+"_1.jpg",image)
-#     image=create_image(frames[2],pixel_values[0],pixel_values[1])
-#     cv.imwrite("../dataset/"+str(example_number).zfill(6)+"_2.jpg",image)
-
 def is_jumpcut(frame1, frame2, threshold=np.inf):
     x = np.histogram(frame1.reshape(-1),np.arange(256))[0]
     y = np.histogram(frame2.reshape(-1),np.arange(256))[0]
@@ -175,10 +148,3 @@ def prepare_dataset(img1,img2,img3,height,width):
     img3 = tf.image.central_crop(img3, central_fraction = fraction)
     img2 = tf.image.central_crop(img2, central_fraction = fraction)
     return tf.concat([img1,img3],axis = -1),img2
-
-
-# In[ ]:
-
-
-
-
