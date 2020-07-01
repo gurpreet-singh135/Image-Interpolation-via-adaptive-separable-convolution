@@ -3,3 +3,7 @@ illustrating_simple_flow.ipynb
 chat.txt
 .vscode/settings.json
 __pycache__
+test.mp4
+AdapConv/predict_image_adap_conv_model.ipynb
+AdapConv/predict_video_adap_conv_model.ipynb
+AdapConv/train_adap_conv_model.ipynb
