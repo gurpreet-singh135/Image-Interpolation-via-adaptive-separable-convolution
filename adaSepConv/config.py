@@ -21,3 +21,12 @@ INPUT_SHAPE = (128,128,6)
 
 #Dataset directory
 DATASET_DIR = './dataset'
+
+#Prediction height 
+PREDICTION_H: int = 128
+
+#Prediction weight
+PREDICTION_W: int = 128
+
+#Prediction Batch
+PREDICTION_BATCH: int = 1
