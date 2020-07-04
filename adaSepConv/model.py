@@ -3,7 +3,7 @@ import tensorflow as tf
 from tensorflow.keras.models import model_from_json
 import numpy as np
 from matplotlib import pyplot as plt
-import adaSepConv.config as config
+import config as config
 print("Tensorflow version " + tf.__version__)
 AUTO = tf.data.experimental.AUTOTUNE
 
