@@ -9,9 +9,9 @@ import glob
 from create_dataset_utils import *
 import create_dataset_config as config
 
-video_path = config.VIDEO_PATH
+video_path = config.VIDEO_PATH+"\*"
 filenames=glob.glob(video_path)
-dataset_path=config.TFRECORD_DATASET_DIR
+dataset_path=glob.glob(config.TFRECORD_DATASET_DIR+"\\")
 
 
 for filename in filenames:
@@ -31,5 +31,5 @@ for filename in filenames:
         if not is_jumpcut(frame0,frame2,threshold = 100000):
             total_patches = create_random_crops_based_on_Prob(frames=frames,writer=writer,total_patches=total_patches)
     writer.close()
-    os.rename(tfrecords_filename,tfrecords_filename[:-10]+"_"+str(total_patches)+".tfrecord")
+    os.rename(tfrecords_filename,tfrecords_filename[:-9]+"_"+str(total_patches)+".tfrecord")
 print("Success")
