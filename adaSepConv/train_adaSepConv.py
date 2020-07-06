@@ -1,7 +1,7 @@
 import tensorflow as tf
-from adaSepConv.model import *
-from adaSepConv.prepare_dataset_utils import *
-import adaSepConv.config as config
+from model import *
+from prepare_dataset_utils import *
+import config as config
 import glob
 
 if __name__ == '__main__':
@@ -19,6 +19,7 @@ if __name__ == '__main__':
     )
     model.summary()
 
-    model.fit(get_training_dataset(training_filenames), steps_per_epoch=2500*len(training_filenames)/config.BATCH_SIZE/10, epochs=config.EPOCHS,callbacks = [lr_callback])
-
+    model.fit(get_training_dataset(training_filenames), steps_per_epoch=2500*len(training_filenames)/config.BATCH_SIZE, epochs=config.EPOCHS,callbacks = [lr_callback])
+    print("saving trained model to current working directory")
     save_model(model)
+    print("Model saved successfully please check current working directory")
