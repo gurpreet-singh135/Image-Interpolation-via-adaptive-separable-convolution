@@ -2,7 +2,7 @@ import tensorflow as tf
 import tensorflow.keras.backend as K
 import math, re, os
 import random
-import adaSepConv.config as config
+import config as config
 AUTO = tf.data.experimental.AUTOTUNE
 
 def decode_image(image_data,height,width):

@@ -14,13 +14,13 @@ OUTPUT_1D_KERNEL_SIZE: int = 51
 BATCH_SIZE: int = 1
 
 # Path to the dataset directory
-TFRECORD_DATASET_DIR = './dataset'
+TFRECORD_DATASET_DIR = '../dataset'
 
 #input shape
 INPUT_SHAPE = (128,128,6)
 
 #Dataset directory
-DATASET_DIR = './dataset'
+DATASET_DIR = '../dataset'
 
 #Prediction height 
 PREDICTION_H: int = 128

@@ -23,7 +23,7 @@ python test_video.py
 enter path to first image file : /path/to/first/image.jpg
 enter path to second image file : /path/to/second/image.jpg
 ```
-7. You can also train your own model by running ```train.py``` in same directory. To train model according to your specific hyperparameters you can edit ```config.py``` file in same directory to change hyperparameters like BATCH_SIZE etc. Model takes about 10 hours on 1050ti with limited dataset in repository. To include more dataset, just download ```.tfrecord``` files from [drive link](https://drive.google.com/drive/folders/1vGHMMOX7lHZ41lbZxCsgvdm6ZJAvLC_t?usp=sharing) and paste them in ```dataset``` folder in repository and run ```train.py``` 
+7. You can also train your own model by running ```train_adaSepConv.py``` in same directory. To train model according to your specific hyperparameters you can edit ```config.py``` file in same directory to change hyperparameters like BATCH_SIZE etc. Model takes about 10 hours on 1050ti with limited dataset in repository. To include more dataset, just download ```.tfrecord``` files from [drive link](https://drive.google.com/drive/folders/1vGHMMOX7lHZ41lbZxCsgvdm6ZJAvLC_t?usp=sharing) and paste them in ```dataset``` folder in repository and run ```train.py``` 
 
 
 here's the [drive link](https://drive.google.com/drive/folders/1vGHMMOX7lHZ41lbZxCsgvdm6ZJAvLC_t?usp=sharing) to see our interpolated results and dataset
