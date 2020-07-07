@@ -11,14 +11,14 @@ import glob
 import math
 import time
 AUTO = tf.data.experimental.AUTOTUNE
-from create_dataset_utils import *
+import sys
 from adap_conv_model_utils import *
 import adap_conv_model_config as config
-
+sys.path.append('../')
+from create_dataset_utils import *
 #Specify path to tfrecord folder here containing tfrecord files
-data_path = config.TFRECORD_DATASET_DIR
+data_path = config.TFRECORD_DATASET_DIR+"*.tfrecord"
 filenames=glob.glob(data_path)
-
 dataset = get_training_dataset(filenames=filenames)
 
 model=create_model()
@@ -31,11 +31,11 @@ model.summary()
 keras.utils.plot_model(model,to_file='adap_conv_model.png',show_shapes=True,show_layer_names=True)
 
 
-history=model.fit(dataset,epochs=config.EPOCHS,batch_size=128,use_multiprocessing=True)
+history=model.fit(dataset,epochs=config.EPOCHS,use_multiprocessing=True)
 
 #Specify weights file name here
 checkpoint_name=config.CHECKPOINT_NAME
-model.save_weights(config.CHECKPOINT_PATH+checkpoint_name)
+model.save_weights(glob.glob(config.CHECKPOINT_PATH)[0]+checkpoint_name)
 
 
 print("Model trained and saved as "+checkpoint_name)

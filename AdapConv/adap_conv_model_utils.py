@@ -1,5 +1,9 @@
 import tensorflow as tf
 AUTO = tf.data.experimental.AUTOTUNE
+import sys
+sys.path.append('../')
+import cv2
+import gc
 from create_dataset_utils import *
 from sklearn.datasets import load_sample_image
 from sklearn.feature_extraction import image
@@ -33,12 +37,13 @@ def predict_frame(model,frame1,frame2,height,width):
     Frame1=tf.pad(frame1,[[39,39],[39,39],[0,0]])
     Frame2=tf.pad(frame2,[[39,39],[39,39],[0,0]])
     Frame3=np.concatenate((Frame1,Frame2),axis=-1)
-    prediction=np.empty((height,width,3),dtype="uint8")
+    prediction=np.empty((height,width,3),dtype="int16")
     w=30
     j=0
-    print(height,width)
+#     print(height,width)
     while j<width-w:
-      print(j)
+#       print(j)
+      gc.collect()
       prediction[:,j:j+w,:]=np.reshape(model.predict(image.extract_patches_2d(Frame3[:,j:j+w-1+79,:],(79,79)),batch_size=128,use_multiprocessing=True),(height,w,3))
       j=j+w
     if j!=width:
@@ -47,6 +52,8 @@ def predict_frame(model,frame1,frame2,height,width):
     return prediction
 class myLoss(tf.keras.losses.Loss):
   def call(self, y_true, y_pred):
+    y_pred=tf.cast(y_pred,dtype="float16")
+    y_true=tf.cast(y_true,dtype="float16")
     loss=y_true-y_pred
     loss=tf.keras.backend.abs(loss)
     loss=tf.math.reduce_sum(loss)
@@ -78,6 +85,7 @@ def create_model():
     pixel2=tf.math.reduce_sum(output2,axis=[1,2],keepdims=True)
     pixel=tf.squeeze(pixel1,axis=[1,2])+tf.squeeze(pixel2,axis=[1,2])
     outputs=pixel
+#     outputs=tf.cast(outputs,dtype="float32")
     return tf.keras.models.Model(inputs=inputs,outputs=outputs,name='model')
 def predict_image(model,frame1,frame2,interpolated_frame_path,save_orignal_frames=True):
     interpolated_frame=predict_frame(model,frame1,frame2,frame1.shape[0],frame1.shape[1])
@@ -87,13 +95,16 @@ def predict_image(model,frame1,frame2,interpolated_frame_path,save_orignal_frame
         cv2.imwrite(interpolated_frame_path+"frame2.jpg",frame2)
     return
 # Save video feaure not implemented
-def predict_video(model,cap,video,save_orignal_video=True):
+def predict_video(model,cap,video,save_orignal_video=True,maxFrames=-1):
     ret,frame1=cap.read()
     if ret:
         video.write(frame1)
     ret,frame2=cap.read()
-    while ret:
-        interpolated_frame=predict_frame(model,frame1,frame2,frame1.shape[0],frame1.shape[1])
+    i=0
+    while (i<maxFrames or maxFrames==-1) and ret:
+        i+=1
+        print("Frame number being predicted",i)
+        interpolated_frame=np.cast["uint8"](predict_frame(model,frame1,frame2,frame1.shape[0],frame1.shape[1]))
         video.write(interpolated_frame)
         video.write(frame2)
         frame1=frame2

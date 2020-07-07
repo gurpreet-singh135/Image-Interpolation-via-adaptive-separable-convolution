@@ -31,7 +31,7 @@ def write_to_tfrecord(frame1,frame2,frame3,writer):
 def decode_image(image_data,height,width):
     image = tf.image.decode_jpeg(image_data, channels=3)
 #     image = tf.cast(image, tf.float32) / 255.0  # convert image to floats in [0, 1] range
-    image = tf.cast(image, tf.uint8)
+    image = tf.cast(image, tf.int16)
     image = tf.reshape(image, [height,width, -1]) # explicit size needed for TPU
     return image
 def read_labeled_tfrecord(example):
