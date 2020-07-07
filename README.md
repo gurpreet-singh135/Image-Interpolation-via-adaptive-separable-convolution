@@ -54,7 +54,10 @@ CHECKPOINT_PATH - Path to the folder you want to save your model weights.
 CHECKPOINT_NAME - Name of file containing your model weights.
  ```
  We trained our model for 25 epochs and got the following graphs.
- [![Graphs](https://github.com/gurpreet-singh135/Image-Interpolation-via-separable-convolution/blob/master/adap_conv_model_curves.png)]
+ 
+ ![Graphs](https://github.com/gurpreet-singh135/Image-Interpolation-via-separable-convolution/blob/master/adap_conv_model_curves.png)
+
+
   It can take upto 2 minutes per epoch to be trained in this model on google colab.
  ### Train Adaptive Separable Convolution Model
  >To be edited
@@ -91,15 +94,24 @@ It takes around 5 minutes to predict one 1080p resolution frame on google colab 
 ## 5.  Architecture 
 Following images illustrate the architecture of the two models.
 ### Adaptive Convolution Model
- [![Adaptive Convolution Model Architecture](https://github.com/gurpreet-singh135/Image-Interpolation-via-separable-convolution/blob/master/adap_conv_model_architecture.png)]
+ ![Adaptive Convolution Model Architecture](https://github.com/gurpreet-singh135/Image-Interpolation-via-separable-convolution/blob/master/adap_conv_model_architecture.png)
+ 
  ### Adaptive Separable Convolution Model
-  [![Adaptive Separable Convolution Model Architecture](https://github.com/gurpreet-singh135/Image-Interpolation-via-separable-convolution/blob/master/adap_conv_model_curves.png)]
+  
+  ![Adaptive Separable Convolution Model Architecture](https://github.com/gurpreet-singh135/Image-Interpolation-via-separable-convolution/blob/master/adap_conv_model_curves.png)
+
+
   >To be edited
  ## 6. Results
  ### Adaptive Convolution Model Results
  Interpolated Frame
-  [![Adaptive Convolution Model Frame Result](https://github.com/gurpreet-singh135/Image-Interpolation-via-separable-convolution/blob/master/adap_conv_model_interpolated_frame.jpg)]
+ 
+ ![Adaptive Convolution Model Frame Result](https://github.com/gurpreet-singh135/Image-Interpolation-via-separable-convolution/blob/master/adap_conv_model_interpolated_frame.jpg)
+
+
 Interpolated Video
+
+
 [![Adaptive Convolution Model Video Result](https://github.com/gurpreet-singh135/Image-Interpolation-via-separable-convolution/blob/master/video.png)](https://vimeo.com/434104472)
  ### Adaptive Separable Convolution Model Results
  >To be edited
