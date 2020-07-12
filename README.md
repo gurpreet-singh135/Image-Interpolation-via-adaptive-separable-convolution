@@ -1,13 +1,13 @@
 # Image-Interpolation-via-adaptive-separable-convolution
 
 ## Overview
->Add photos here for model
 
 Frame Interpolation consists of adding an intermediate frame between all pairs of consecutive frames in a video to raise the overall fps of the video. Our Project consists of Tensorflow implementation of two papers namely [Video Frame Interpolation via Adaptive Convolution](https://arxiv.org/pdf/1703.07514.pdf) and [Video Frame Interpolation via Adaptive Separable Convolution](https://arxiv.org/pdf/1708.01692.pdf). We have implemented both papers separately and included results after training respective models. We have also included pre-trained models in this repository so you can **double the  FPS of your own videos**, to start please follow steps given below.
 ## 1. Results
  ### Adaptive Convolution Model Results
 
-Interpolated Video
+ Interpolated Video:
+
  [![Adaptive Convolution Model Video Result](https://github.com/gurpreet-singh135/Image-Interpolation-via-separable-convolution/blob/master/video.png)](https://vimeo.com/434104472)
  
  ### Adaptive Separable Convolution Model Results
@@ -133,7 +133,9 @@ Following images illustrate the architecture of the two models.
   ![Adaptive Separable Convolution Model Architecture](https://github.com/gurpreet-singh135/Image-Interpolation-via-separable-convolution/blob/master/adaSepConv_model_architecture.png)
 
 ## 7. Credits
->To be edited
+Because of the following papers this repository became possible:
+ - [Video Frame Interpolation via Adaptive Convolution](https://arxiv.org/pdf/1703.07514.pdf)
+ - [Video Frame Interpolation via Adaptive Separable Convolution](https://arxiv.org/pdf/1708.01692.pdf)
 ## 8. Areas to contribute
 There are several areas in which the code can be further optimized like using less GPU memory during prediction and a faster implementation of adaptive convolution which might be done with the help of shift-n-stitch technique. Also, you can add the tfrecords that you create to make predictions even better!
 
